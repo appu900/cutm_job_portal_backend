@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -20,4 +14,84 @@ model Admin {
   passwordHash String
   role         String @default("ADMIN")
   campus       String
+  jobs         Job[]
+}
+
+model User {
+  id             Int              @id @default(autoincrement())
+  name           String
+  email          String           @unique
+  hashedPassword String
+  phoneNumber    String
+  resumeUrl      String?
+  role           Role             @default(USER)
+  exprience      String?
+  applications   JobApplication[]
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  education      Education[]
+}
+
+model Education {
+  id            Int    @id @default(autoincrement())
+  educationName String
+  timeLine      String
+  Percentage    String
+  InstituteName String
+  userId        Int
+  user          User   @relation(fields: [userId], references: [id])
+}
+
+enum JObStatus {
+  ACTIVE
+  CLOSED
+}
+
+enum JobType {
+  FULL_TIME
+  PART_TIME
+  CONTRACT
+  INTERNSHIP
+  REMOTE
+}
+
+model Job {
+  id             Int              @id @default(autoincrement())
+  title          String
+  description    String
+  companyName    String           @default("Centurion University")
+  campus         String
+  salaryRange    String?
+  jobType        JobType
+  status         JObStatus        @default(ACTIVE)
+  adminId        Int
+  admin          Admin            @relation(fields: [adminId], references: [id])
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  JobApplication JobApplication[]
+}
+
+model JobApplication {
+  id          Int               @id @default(autoincrement())
+  coverLetter String?
+  status      ApplicationStatus @default(PENDING)
+  appliedAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+  userId      Int
+  user        User              @relation(fields: [userId], references: [id])
+  jobId       Int
+  job         Job               @relation(fields: [jobId], references: [id])
+}
+
+enum ApplicationStatus {
+  PENDING
+  UNDER_REVIEW
+  INTERVIEW_SCHEDULED
+  ACCEPTED
+  REJECTED
+}
+
+enum Role {
+  ADMIN
+  USER
 }
