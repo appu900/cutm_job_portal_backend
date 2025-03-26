@@ -6,6 +6,17 @@ export interface IAdminRepository {
   findOne(data: any): Promise<any>;
 }
 
+export interface IUserRepository {
+  create(data: any): Promise<any>;
+  createEducation(data: any): Promise<any>;
+  findOne(data: any): Promise<any>;
+  findOneByEmail(email: string): Promise<any>;
+  updatePassword(data: any): Promise<boolean>;
+  updateProfile(data: any): Promise<boolean>;
+  createUser(userData: any, usereducationData: any): Promise<any>;
+  applyJob(data: any): Promise<any>;
+}
+
 export interface IJobRepository {
   create(data: InputJobRequestDTO): Promise<Job>;
   get(): Promise<Job[]>;
