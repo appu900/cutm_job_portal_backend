@@ -8,6 +8,13 @@ class UserRepository implements IUserRepository {
   constructor() {
     this._prisma = prisma;
   }
+  async findById(UserId: number): Promise<any> {
+    return await this._prisma.user.findUnique({
+      where: {
+        id: UserId,
+      },
+    });
+  }
   applyJob(UserJobApplyData: ApplyJobInput): Promise<any> {
     return this._prisma.jobApplication.create({
       data: {
@@ -97,6 +104,7 @@ class UserRepository implements IUserRepository {
       );
     }
   }
+
   async findOne(data: any): Promise<any> {
     return await prisma.user.findFirst({ where: { email: data.email } });
   }

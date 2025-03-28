@@ -10,6 +10,7 @@ export interface IUserRepository {
   create(data: any): Promise<any>;
   createEducation(data: any): Promise<any>;
   findOne(data: any): Promise<any>;
+  findById(UserId:number): Promise<any>;
   findOneByEmail(email: string): Promise<any>;
   updatePassword(data: any): Promise<boolean>;
   updateProfile(data: any): Promise<boolean>;
@@ -20,4 +21,5 @@ export interface IUserRepository {
 export interface IJobRepository {
   create(data: InputJobRequestDTO): Promise<Job>;
   get(): Promise<Job[]>;
+  findById(jobId: number): Promise<Job | null>;
 }

@@ -8,6 +8,11 @@ class JobRepositoty implements IJobRepository {
   constructor() {
     this._prisma = prisma;
   }
+
+  async findById(jobId:number):Promise<Job | null> {
+    return await this._prisma.job.findUnique({ where: { id: jobId } });
+  }
+
   async get(): Promise<Job[]> {
     const result = await this._prisma.job.findMany();
     return result;

@@ -75,4 +75,7 @@ export class ApplyJobInput {
   userId!: number;
   @IsNumber()
   jobId!: number;
+
+  @IsString()
+  userEmail!: string;
 }
