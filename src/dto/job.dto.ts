@@ -27,3 +27,17 @@ export class InputJobRequestDTO {
 
   adminId!: number;
 }
+
+export class InterviewInputDTO {
+  @IsNotEmpty()
+  applicationId!: number;
+
+  @IsString()
+  @IsNotEmpty()
+  date!: Date;
+
+  interviewerName!: string;
+  interviewerEmail!: string;
+  interviewerPhone!: string;
+  modeOfInterviewer?: string;
+}
