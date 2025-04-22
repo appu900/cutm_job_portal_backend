@@ -86,6 +86,18 @@ Our HR team will reach out to you shortly with the next steps.
 Best Regards,
 Career Team`,
       };
+    case "interview_round_cleared":
+      return {
+        subject: "Congratulations! Interview Round Cleared",
+        text: `Hello ${userName},
+  
+  We are delighted to inform you that you have successfully cleared an interview round for the ${jobTitle} position at ${companyName}.
+  
+  Our team will contact you soon with details about the next steps in the hiring process.
+  
+  Best Regards,
+  Career Team`,
+      };
 
     default:
       return {

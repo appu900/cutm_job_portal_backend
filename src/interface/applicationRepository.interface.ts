@@ -1,3 +1,5 @@
+import { InterviewResult, InterviewStatus } from "@prisma/client";
+
 export interface IApplicationRepository {
   create(data: any): Promise<any>;
   findOne(data: any): Promise<any>;
@@ -11,4 +13,10 @@ export interface IApplicationRepository {
     modeOfInterview: string,
     sheduleDate: Date
   ): Promise<any>;
+  updateInterviewResultStatus(
+    interviewId: number,
+    result: InterviewResult
+  ): Promise<any>;
+  updateInterviewStatus(interviewID: number): Promise<any>;
+  rejectApplication(interviewID:number): Promise<any>;
 }

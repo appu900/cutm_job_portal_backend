@@ -10,6 +10,7 @@ const MailTypes = {
   INTERVIEW_CANCELLED: "REJECTION_MAIL",
   NEW_JOB_POSTED: "APPLY_JOB",
   NEW_ADMIN_ADDED: "REJECTION_MAIL",
+  CLEARED_INTERVIEW: "interview_round_cleared",
 } as const;
 
 export default MailTypes;

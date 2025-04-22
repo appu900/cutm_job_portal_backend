@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon src/server.ts",
-    "start-worker":"nodemon src/utils/queue/worker.ts"
+    "start-worker":"npx nodemon --watch src/utils/queue/worker.ts --exec ts-node src/utils/queue/worker.ts"
   },
   "repository": {
     "type": "git",

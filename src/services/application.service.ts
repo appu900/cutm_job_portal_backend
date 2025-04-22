@@ -1,4 +1,10 @@
-import { ApplicationStatus, Job, JobApplication, User } from "@prisma/client";
+import {
+  ApplicationStatus,
+  InterviewResult,
+  Job,
+  JobApplication,
+  User,
+} from "@prisma/client";
 import { ApplyJobInput } from "../dto/user.dto";
 import {
   IJobRepository,
@@ -87,6 +93,40 @@ class ApplicationService {
       MailTypes.INTERVIEW_SCHEDULED,
       application.job.title
     );
+    return response;
+  }
+
+  async updateInterviewResultStatus(interviewId: number, status: string) {
+    const interviewStatus = status.toUpperCase() as InterviewResult;
+    let response;
+    if (interviewStatus === "SELECTED") {
+      response = await this._applicationRepository.updateInterviewStatus(
+        interviewId,
+      );
+      if (!response) {
+        throw new Error("Failed to update interview result status");
+      }
+      sendFormattedMail(
+        response.jobApplication.userId,
+        MailTypes.CLEARED_INTERVIEW,
+        response.jobApplication.job.title
+      );
+    } else if (interviewStatus === "REJECTED") {
+      response = await this._applicationRepository.rejectApplication(
+        interviewId
+      );
+      if (!response) {
+        throw new Error("Failed to reject application");
+      }
+      sendFormattedMail(
+        response.jobApplication.userId,
+        MailTypes.APPLICATION_REJECTED,
+        response.jobApplication.job.title
+      );
+    }
+    if (!response) {
+      throw new Error("Failed to update interview result status");
+    }
     return response;
   }
 

@@ -16,7 +16,7 @@ const applicationService = new ApplicationService(
 
 router.post(
   "/:jobId",
-  verifyJWT,   
+  verifyJWT,
   async (req: AuthenticatedRequest, res: Response) => {
     try {
       const userId = Number(req.userId);
@@ -24,7 +24,7 @@ router.post(
       const userEmail = req.userEmail || "user@example";
       if (!userId || !jobId) {
         throw new Error("Unauthorized request");
-      }  
+      }
       const response = await applicationService.createApllication({
         userId: userId,
         jobId: jobId,
@@ -108,8 +108,31 @@ router.post("/schedule-interview/cutm", async (req: Request, res: Response) => {
   }
 });
 
+router.put(
+  "/interview-result/:interviewId",
+  async (req: Request, res: Response) => {
+    try {
+      const interviewId = Number(req.params.interviewId);
+      const { status } = req.body;
+      if (!interviewId || !status) {
+        throw new Error("Missing required parameters");
+      }
+      const response = await applicationService.updateInterviewResultStatus(
+        interviewId,
+        status
+      );
+      res.status(200).json({
+        success: "ok",
+        response,
+      });
+      return;
+    } catch (error: any) {
+      res.status(500).json({
+        error: error.message,
+      });
+      return;
+    }
+  }
+);
+
 export default router;
-
-
-
-  

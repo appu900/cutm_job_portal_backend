@@ -1,5 +1,7 @@
 import {
   ApplicationStatus,
+  InterviewResult,
+  InterviewStatus,
   ModeOfInterview,
   PrismaClient,
 } from "@prisma/client";
@@ -92,6 +94,137 @@ class AppplicationRepository implements IApplicationRepository {
         },
       },
     });
+  }
+
+  async updateInterviewStatus(
+    interviewID: number,
+  ): Promise<any> {
+    const result = await prisma.$transaction(async (tx) => {
+      const interviewData = await tx.interview.findUnique({
+        where: { id: interviewID },
+        include: {
+          jobApplication: {
+            select: {
+              userId: true,
+              job: {
+                select: {
+                  title: true,
+                },
+              },
+            },
+          },
+        },
+      });
+      if (!interviewData) {
+        throw new Error("Interview not found");
+      }
+      const jobApplicationID = interviewData.jobApplicationId;
+      const updatedInterviewData = await tx.interview.update({
+        where: {
+          id: interviewID,
+        },
+        data: {
+          status: "COMPLETED",
+          interviewResult: "SELECTED",
+        },
+      });
+      const jobApplication = await tx.jobApplication.findUnique({
+        where: { id: jobApplicationID },
+        include: {
+          user: {
+            select: {
+              email: true,
+              name: true,
+            },
+          },
+          job: true,
+        },
+      });
+      return {
+        jobApplication,
+        updatedInterviewData,
+      };
+    });
+    console.log(result);
+    return result;
+  }
+
+  async updateInterviewResultStatus(
+    interviewID: number,
+    result: InterviewResult
+  ): Promise<any> {
+    return await this._prisma.interview.update({
+      where: {
+        id: interviewID,
+      },
+      data: {
+        interviewResult: "SELECTED",
+      },
+    });
+  }
+
+  async rejectApplication(interviewID: number): Promise<any> {
+    const result = await prisma.$transaction(async (tx) => {
+      // Find the interview with related data
+      const interviewData = await tx.interview.findUnique({
+        where: { id: interviewID },
+        include: {
+          jobApplication: {
+            select: {
+              userId: true,
+              job: {
+                select: {
+                  title: true,
+                },
+              },
+            },
+          },
+        },
+      });
+
+      if (!interviewData) {
+        throw new Error("Interview not found");
+      }
+
+      const userId = interviewData.jobApplication.userId;
+      const jobApplicationID = interviewData.jobApplicationId;
+
+      // Update the job application status
+      const jobApplicationData = await tx.jobApplication.update({
+        where: { id: jobApplicationID },
+        data: {
+          status: ApplicationStatus.REJECTED,
+        },
+      });
+
+      const interviewResult = await tx.interview.update({
+        where: { id: interviewID },
+        data: {
+          status: InterviewStatus.COMPLETED,
+          interviewResult: InterviewResult.REJECTED,
+        },
+      });
+
+      const jobApplication = await tx.jobApplication.findUnique({
+        where: { id: jobApplicationID },
+        include: {
+          user: {
+            select: {
+              email: true,
+              name: true,
+            },
+          },
+          job: true,
+        },
+      });
+
+      return {
+        jobApplication,
+        interviewResult,
+      };
+    });
+    console.log(result);
+    return result;
   }
 }
 
