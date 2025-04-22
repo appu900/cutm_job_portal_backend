@@ -135,4 +135,26 @@ router.put(
   }
 );
 
+router.get(
+  "/interviews/all/:jobApplicationID",
+ async (req: Request, res: Response) => {
+    try {
+      const jobApplicationID = Number(req.params.jobApplicationID);
+      if (!jobApplicationID) {
+        throw new Error("Missing required parameters");
+      }
+      const response =
+        await applicationService.fetchDetails(jobApplicationID);
+      res.status(200).json({
+        success: "ok",
+        response,
+      });
+    } catch (error: any) {
+      res.status(500).json({
+        error: error.message,
+      });
+    }
+  }
+);
+
 export default router;

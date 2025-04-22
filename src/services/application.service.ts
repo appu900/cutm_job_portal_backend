@@ -101,7 +101,7 @@ class ApplicationService {
     let response;
     if (interviewStatus === "SELECTED") {
       response = await this._applicationRepository.updateInterviewStatus(
-        interviewId,
+        interviewId
       );
       if (!response) {
         throw new Error("Failed to update interview result status");
@@ -132,6 +132,40 @@ class ApplicationService {
 
   async getAllApplications() {
     return await this._applicationRepository.getAll();
+  }
+
+  async fetchAllInterviwsOfApplication(applicationId: number) {
+    console.log("here")
+    const response =  await prisma.interview.findMany({
+      where: {
+        jobApplicationId: applicationId,
+      },
+      include: {
+        jobApplication: {
+          include: {
+            user: true,
+            job: true,
+          },
+        },
+      },
+    });
+    console.log(response)
+  }
+
+  async fetchDetails(id:number){
+    const application = await prisma.jobApplication.findUnique({
+      where: { id },
+      include: {
+        user: true,
+        job: true,
+        Interview: true,
+      },
+    })
+    if (!application) {
+      throw new Error("Application not found");
+    }
+
+    return application;
   }
 
   async updateApplicationStatus(
