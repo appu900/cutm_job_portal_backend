@@ -47,9 +47,10 @@ router.post("/", upload.single("resume"), async (req, res) => {
       success: "ok",
       response,
     });
-  } catch (error) {
+  } catch (error:any) {
     res.status(500).json({
       error: "unexpected error",
+      errorMessage: error.message,
     });
     return;
   }
