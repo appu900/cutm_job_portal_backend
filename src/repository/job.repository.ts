@@ -26,6 +26,8 @@ class JobRepositoty implements IJobRepository {
         salaryRange: data.salaryrange,
         jobType: data.jobType,
         adminId: data.adminId,
+        imageURL:data.ImageUrl
+      
       },
     });
     return result;

@@ -25,6 +25,8 @@ export class InputJobRequestDTO {
   @IsNotEmpty()
   jobType!: JobType;
 
+  ImageUrl!: string;
+
   adminId!: number;
 }
 

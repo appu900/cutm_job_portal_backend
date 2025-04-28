@@ -62,6 +62,7 @@ model Job {
   companyName    String           @default("Centurion University")
   campus         String
   salaryRange    String?
+  imageURL       String?
   jobType        JobType
   status         JObStatus        @default(ACTIVE)
   adminId        Int
@@ -86,16 +87,16 @@ model JobApplication {
 }
 
 model Interview {
-  id               Int             @id @default(autoincrement())
+  id               Int              @id @default(autoincrement())
   scheduledAt      DateTime
-  status           InterviewStatus @default(SCHEDULED)
-  jobApplicationId Int             @unique
-  jobApplication   JobApplication  @relation(fields: [jobApplicationId], references: [id])
+  status           InterviewStatus  @default(SCHEDULED)
+  jobApplicationId Int              @unique
+  jobApplication   JobApplication   @relation(fields: [jobApplicationId], references: [id])
   interviewerName  String?
   interviewerEmail String?
   interviewerPhone String?
   modeOfInterview  ModeOfInterview
-  interviewResult InterviewResult?
+  interviewResult  InterviewResult?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
