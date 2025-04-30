@@ -6,7 +6,10 @@ import JobApplicationRoutes from "./api/application.routes";
 import cors from "cors";
 const app = express();
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+    origin: "*",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+}));
 
 app.use("/api/admin", AdminRoutes);
 app.use("/api/job", JobRoutes);
