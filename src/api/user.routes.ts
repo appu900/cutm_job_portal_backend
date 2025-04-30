@@ -49,7 +49,7 @@ router.post("/", upload.single("resume"), async (req, res) => {
     });
   } catch (error:any) {
     res.status(500).json({
-      error: "unexpected error",
+      error: error,
       errorMessage: error.message,
     });
     return;
