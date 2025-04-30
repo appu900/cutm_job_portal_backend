@@ -56,7 +56,10 @@ export class UserService {
     }
 
     const token = generateJWT(user.email, user.id, user.role);
-    return token
+    return {
+      token,
+      user
+    }
   }
 
   /**
