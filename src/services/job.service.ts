@@ -1,3 +1,4 @@
+import { prisma } from "../config/database.config";
 import { InputJobRequestDTO } from "../dto/job.dto";
 import { IJobRepository } from "../interface/adminRepository.interface";
 
@@ -14,6 +15,23 @@ class JobService {
 
   async fetchJobById(id: number) {
     const result = await this._repository.findById(id);
+    return result;
+  }
+
+  async fetchJobDetailsIncludeApplicants(id: number) {
+    const result = await prisma.job.findUnique({
+      where: {
+        id: id,
+      },
+      include: {
+        JobApplication: {
+          include: {
+            user: true,
+            job: true,
+          },
+        },
+      },
+    });
     return result;
   }
 
