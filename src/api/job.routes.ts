@@ -58,4 +58,34 @@ router.get("/", async (req: Request, res: Response) => {
   }
 });
 
+router.get("/:id", async (req: Request, res: Response) => {
+  try {
+    const jobId = req.params.id;
+    if (!jobId) {
+      res.status(400).json({
+        error: "job id is required",
+      });
+      return;
+    }
+    const response = await service.fetchJobById(+jobId);
+    if (!response) {
+      res.status(404).json({
+        error: "job not found",
+      });
+      return;
+    }
+
+    res.status(200).json({
+      success: "ok",
+      response,
+    });
+    return;
+  } catch (error: any) {
+    res.status(500).json({
+      error: error.message,
+    });
+    return;
+  }
+});
+
 export default router;

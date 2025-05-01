@@ -12,6 +12,11 @@ class JobService {
     return result;
   }
 
+  async fetchJobById(id: number) {
+    const result = await this._repository.findById(id);
+    return result;
+  }
+
   async fetchAllJobs() {
     const result = await this._repository.get();
     return result;
