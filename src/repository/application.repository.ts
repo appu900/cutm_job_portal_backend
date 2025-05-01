@@ -36,6 +36,19 @@ class AppplicationRepository implements IApplicationRepository {
     });
   }
 
+  async fetchApplicationDetails(id: number) {
+    const response = await prisma.jobApplication.findUnique({
+      where: {
+        id: id,
+      },
+      include: {
+        user: true,
+        job: true,
+      },
+    });
+    return response;
+  }
+
   findOne(data: any): Promise<any> {
     return this._prisma.jobApplication.findUnique({
       where: {
@@ -96,9 +109,7 @@ class AppplicationRepository implements IApplicationRepository {
     });
   }
 
-  async updateInterviewStatus(
-    interviewID: number,
-  ): Promise<any> {
+  async updateInterviewStatus(interviewID: number): Promise<any> {
     const result = await prisma.$transaction(async (tx) => {
       const interviewData = await tx.interview.findUnique({
         where: { id: interviewID },

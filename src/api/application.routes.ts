@@ -137,14 +137,13 @@ router.put(
 
 router.get(
   "/interviews/all/:jobApplicationID",
- async (req: Request, res: Response) => {
+  async (req: Request, res: Response) => {
     try {
       const jobApplicationID = Number(req.params.jobApplicationID);
       if (!jobApplicationID) {
         throw new Error("Missing required parameters");
       }
-      const response =
-        await applicationService.fetchDetails(jobApplicationID);
+      const response = await applicationService.fetchDetails(jobApplicationID);
       res.status(200).json({
         success: "ok",
         response,
@@ -156,5 +155,28 @@ router.get(
     }
   }
 );
+
+router.get("/apd/:id", async (req: Request, res: Response) => {
+  try {
+    const applicationId = req.params.id;
+    if (!applicationId) {
+      res.status(400).json({
+        error: "application Id is required",
+      });
+      return;
+    }
+    const response = await applicationService.fetchApplicationDetails(
+      +applicationId
+    );
+    res.status(200).json({
+      message: "fetched all Data",
+      response,
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      error: error.message,
+    });
+  }
+});
 
 export default router;

@@ -87,6 +87,9 @@ router.get("/:id", async (req: Request, res: Response) => {
     return;
   }
 });
+
+
+
 router.get("/applicants/:jobId", async (req: Request, res: Response) => {
   try {
     const jobId = req.params.jobId;

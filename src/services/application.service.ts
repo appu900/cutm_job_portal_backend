@@ -55,6 +55,19 @@ class ApplicationService {
     }
   }
 
+  async fetchApplicationDetails(applicationId: number) {
+    const response = await prisma.jobApplication.findUnique({
+      where: {
+        id: applicationId,
+      },
+      include: {
+        user: true,
+        job: true,
+      },
+    });
+    return response;
+  }
+
   async scheduleInterview(data: ScheduleInterviewDto) {
     // first look for the application status is it rejected or not
     const application = await prisma.jobApplication.findUnique({
@@ -135,8 +148,8 @@ class ApplicationService {
   }
 
   async fetchAllInterviwsOfApplication(applicationId: number) {
-    console.log("here")
-    const response =  await prisma.interview.findMany({
+    console.log("here");
+    const response = await prisma.interview.findMany({
       where: {
         jobApplicationId: applicationId,
       },
@@ -149,10 +162,10 @@ class ApplicationService {
         },
       },
     });
-    console.log(response)
+    console.log(response);
   }
 
-  async fetchDetails(id:number){
+  async fetchDetails(id: number) {
     const application = await prisma.jobApplication.findUnique({
       where: { id },
       include: {
@@ -160,7 +173,7 @@ class ApplicationService {
         job: true,
         Interview: true,
       },
-    })
+    });
     if (!application) {
       throw new Error("Application not found");
     }
