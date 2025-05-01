@@ -237,6 +237,19 @@ class AppplicationRepository implements IApplicationRepository {
     console.log(result);
     return result;
   }
+
+  async getInterviewesByUserID(userID: number):Promise<any> {
+    const applications = await prisma.jobApplication.findMany({
+      where: {
+        userId: userID,
+      },
+      include:{
+        Interview:true,
+        user:true
+      }
+    });
+    return applications
+  }
 }
 
 export default AppplicationRepository;

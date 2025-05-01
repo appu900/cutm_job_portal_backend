@@ -179,4 +179,27 @@ router.get("/apd/:id", async (req: Request, res: Response) => {
   }
 });
 
+router.get("/interview/user/:id", async (req: Request, res: Response) => {
+  try {
+    const userID = req.params.id;
+    if (!userID) {
+      res.status(400).json({
+        error: "userID is required",
+      });
+      return;
+    }
+    const response = await applicationService.fetchAllInterviewByUserID(
+      +userID
+    );
+    res.status(200).json({
+      message: "fetched all Data",
+      response,
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      error: error.message,
+    });
+  }
+});
+
 export default router;

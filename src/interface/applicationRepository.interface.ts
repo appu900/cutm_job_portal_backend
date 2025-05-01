@@ -19,4 +19,5 @@ export interface IApplicationRepository {
   ): Promise<any>;
   updateInterviewStatus(interviewID: number): Promise<any>;
   rejectApplication(interviewID:number): Promise<any>;
+  getInterviewesByUserID(userID:number):Promise<any>
 }

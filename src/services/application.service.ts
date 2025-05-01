@@ -187,7 +187,7 @@ class ApplicationService {
     jobRole: string
   ) {
     const applicationStatus = status.toUpperCase() as ApplicationStatus;
-    console.log(applicationStatus)
+    console.log(applicationStatus);
     const application: JobApplication =
       await this._applicationRepository.findOne({ id: applicationId });
     if (!application) {
@@ -226,11 +226,18 @@ class ApplicationService {
           MailTypes.APPLICATION_NOT_SHORTLISTED,
           jobRole
         );
-        return result
+        return result;
 
       default:
         throw new Error("Invalid Application Status");
     }
+  }
+
+  async fetchAllInterviewByUserID(userID: number) {
+    const response = await this._applicationRepository.getInterviewesByUserID(
+      userID
+    );
+    return response;
   }
 }
 
