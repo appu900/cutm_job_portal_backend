@@ -187,6 +187,7 @@ class ApplicationService {
     jobRole: string
   ) {
     const applicationStatus = status.toUpperCase() as ApplicationStatus;
+    console.log(applicationStatus)
     const application: JobApplication =
       await this._applicationRepository.findOne({ id: applicationId });
     if (!application) {
@@ -215,6 +216,17 @@ class ApplicationService {
           jobRole
         );
         return res;
+      case "REJECTED":
+        const result = await this._applicationRepository.updateStatus(
+          applicationId,
+          ApplicationStatus.REJECTED
+        );
+        sendFormattedMail(
+          application.userId,
+          MailTypes.APPLICATION_NOT_SHORTLISTED,
+          jobRole
+        );
+        return result
 
       default:
         throw new Error("Invalid Application Status");
