@@ -29,7 +29,10 @@ class AdminService {
       throw new Error("Invalid email or password");
     }
     const jwtToken = generateJWT(admin.email, admin.id, admin.role);
-    return jwtToken;
+    return {
+      jwtToken,
+      admin,
+    };
   }
 }
 
