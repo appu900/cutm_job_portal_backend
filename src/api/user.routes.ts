@@ -47,7 +47,7 @@ router.post("/", upload.single("resume"), async (req, res) => {
       success: "ok",
       response,
     });
-  } catch (error:any) {
+  } catch (error: any) {
     res.status(500).json({
       error: error.message,
       errorMessage: error.message,
@@ -64,10 +64,30 @@ router.post("/login", async (req: Request, res: Response) => {
       success: "ok",
       response,
     });
-  } catch (error:any) {
+  } catch (error: any) {
     res.status(500).json({
-      error:error.message,
+      error: error.message,
     });
+  }
+});
+
+router.get("/:id", async (req: Request, res: Response) => {
+  try {
+    const userID = req.params.id;
+    if (!userID) {
+      res.status(400).json({
+        error: "userID is required",
+      });
+    }
+    const response = await userService.fetchUserDetails(+userID);
+    res.status(200).json({
+      response,
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: "failed to fetch user details",
+    });
+    return;
   }
 });
 

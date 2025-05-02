@@ -58,8 +58,8 @@ export class UserService {
     const token = generateJWT(user.email, user.id, user.role);
     return {
       token,
-      user
-    }
+      user,
+    };
   }
 
   /**
@@ -146,5 +146,16 @@ export class UserService {
         }`
       );
     }
+  }
+
+  async fetchUserDetails(userID: number) {
+    return await prisma.user.findUnique({
+      where: {
+        id: userID,
+      },
+      include: {
+        applications: true,
+      },
+    });
   }
 }
