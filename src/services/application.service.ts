@@ -233,6 +233,18 @@ class ApplicationService {
     }
   }
 
+  async fetchAllScheduledInterview() {
+    const response = await prisma.interview.findMany({
+      where: {
+        status: "SCHEDULED",
+      },
+      include: {
+        jobApplication:true
+      },
+    });
+    return response
+  }
+
   async fetchAllInterviewByUserID(userID: number) {
     const response = await this._applicationRepository.getInterviewesByUserID(
       userID

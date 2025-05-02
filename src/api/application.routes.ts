@@ -202,4 +202,18 @@ router.get("/interview/user/:id", async (req: Request, res: Response) => {
   }
 });
 
+router.get("/interview/schedule", async (req: Request, res: Response) => {
+  try {
+    const response = await applicationService.fetchAllScheduledInterview();
+    res.status(200).json({
+      message: "ok",
+      response,
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: "something went wrong",
+    });
+  }
+});
+
 export default router;
