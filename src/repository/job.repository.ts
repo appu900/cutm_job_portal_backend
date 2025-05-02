@@ -9,7 +9,7 @@ class JobRepositoty implements IJobRepository {
     this._prisma = prisma;
   }
 
-  async findById(jobId:number):Promise<Job | null> {
+  async findById(jobId: number): Promise<Job | null> {
     return await this._prisma.job.findUnique({ where: { id: jobId } });
   }
 
@@ -26,8 +26,10 @@ class JobRepositoty implements IJobRepository {
         salaryRange: data.salaryrange,
         jobType: data.jobType,
         adminId: data.adminId,
-        imageURL:data.ImageUrl
-      
+        imageURL: data.ImageUrl,
+        Qualification: data.qualification,
+        department: data.department,
+        applicationDeadline: data.applicationDeadline,
       },
     });
     return result;

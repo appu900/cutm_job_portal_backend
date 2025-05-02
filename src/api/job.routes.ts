@@ -8,12 +8,29 @@ import { validateDTO } from "../middleware/validateDTO.middleware";
 import { InputJobRequestDTO } from "../dto/job.dto";
 import JobRepositoty from "../repository/job.repository";
 import JobService from "../services/job.service";
+import multer from "multer";
 const router = express.Router();
 const repository = new JobRepositoty();
 const service = new JobService(repository);
+const storage = multer.memoryStorage();
+const upload = multer({
+  storage,
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5 MB limit
+  fileFilter: (req, file, cb) => {
+    const allowedMimeTypes = ["image/jpeg", "image/jpg", "image/png"];
+    if (allowedMimeTypes.includes(file.mimetype)) {
+      cb(null, true);
+    } else {
+      cb(null, false);
+      return cb(new Error("Only .jpg, .jpeg, and .png files are allowed"));
+    }
+  },
+});
+
 
 router.post(
   "/",
+  upload.single("poster"),
   validateDTO(InputJobRequestDTO),
   verifyJWT,
   async (req: AuthenticatedRequest, res: Response) => {
@@ -29,7 +46,7 @@ router.post(
     try {
       const payload = req.body;
       payload.adminId = req.userId;
-      const response = await service.createJob(payload);
+      const response = await service.createJob(payload,req.file);
       res.status(201).json({
         success: "ok",
         response,
@@ -87,8 +104,6 @@ router.get("/:id", async (req: Request, res: Response) => {
     return;
   }
 });
-
-
 
 router.get("/applicants/:jobId", async (req: Request, res: Response) => {
   try {

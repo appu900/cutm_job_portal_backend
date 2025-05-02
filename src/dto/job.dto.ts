@@ -9,6 +9,17 @@ export class InputJobRequestDTO {
   @IsNotEmpty()
   description!: string;
 
+  @IsNotEmpty()
+  applicationDeadline?: Date;
+
+  @IsString()
+  @IsNotEmpty()
+  qualification!: string;
+
+  @IsNotEmpty()
+  @IsString()
+  department!: string;
+
   @IsString()
   @IsNotEmpty()
   companyName!: string;
@@ -25,7 +36,7 @@ export class InputJobRequestDTO {
   @IsNotEmpty()
   jobType!: JobType;
 
-  ImageUrl!: string;
+  ImageUrl!: string | null;
 
   adminId!: number;
 }

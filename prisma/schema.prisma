@@ -56,20 +56,23 @@ enum JobType {
 }
 
 model Job {
-  id             Int              @id @default(autoincrement())
-  title          String
-  description    String
-  companyName    String           @default("Centurion University")
-  campus         String
-  salaryRange    String?
-  imageURL       String?
-  jobType        JobType
-  status         JObStatus        @default(ACTIVE)
-  adminId        Int
-  admin          Admin            @relation(fields: [adminId], references: [id])
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
-  JobApplication JobApplication[]
+  id                  Int              @id @default(autoincrement())
+  title               String
+  description         String
+  companyName         String           @default("Centurion University")
+  campus              String
+  salaryRange         String?
+  imageURL            String?
+  jobType             JobType
+  status              JObStatus        @default(ACTIVE)
+  department          String?
+  applicationDeadline DateTime?
+  Qualification       String?
+  adminId             Int
+  admin               Admin            @relation(fields: [adminId], references: [id])
+  createdAt           DateTime         @default(now())
+  updatedAt           DateTime         @updatedAt
+  JobApplication      JobApplication[]
 }
 
 model JobApplication {
