@@ -51,9 +51,9 @@ router.post(
         success: "ok",
         response,
       });
-    } catch (error) {
+    } catch (error:any) {
       res.status(403).json({
-        error: "unexpected error",
+        error:error.message
       });
       return;
     }
