@@ -8,7 +8,7 @@ export const generateJWT = (email: string, id:number, role: string) => {
       role,
     },
     "hello_world_brother_haha",
-    { expiresIn: "10h" }
+    { expiresIn: "10d" }
   );
   return token;
 };
