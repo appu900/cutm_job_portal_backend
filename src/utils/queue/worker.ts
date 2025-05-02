@@ -17,7 +17,7 @@ async function sendEmail(to: string, subject: string, body: string) {
     from: "awardingbody@cutm.ac.in",
     to: to,
     subject: subject,
-    html: body,
+    html:body
   });
   console.log("sucessfully send mail to", to);
   console.log(response);

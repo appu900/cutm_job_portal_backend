@@ -239,10 +239,21 @@ class ApplicationService {
         status: "SCHEDULED",
       },
       include: {
-        jobApplication:true
+        jobApplication: {
+          include: {
+            user: {
+              select: {
+                id: true,
+                name: true,
+                email: true,
+                resumeUrl:true
+              },
+            },
+          },
+        },
       },
     });
-    return response
+    return response;
   }
 
   async fetchAllInterviewByUserID(userID: number) {

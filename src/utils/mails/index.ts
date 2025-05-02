@@ -7,17 +7,21 @@ export const getEmailTemplate = (
   switch (emailType) {
     case "application_received":
       return {
-        subject: "Thank You for Applying – Next Steps",
-        text: `Hello ${userName},
+        subject: "Thank You for Applying – Centurion University",
+        text: `Dear ${userName},
 
-Thank you for applying for the ${jobTitle} position at ${companyName}.
+Thank you for applying to Centurion University of Technology and Management. We have successfully received your application, and we appreciate your interest in the position of ${jobTitle}.
 
-We appreciate your interest in joining our team. Our hiring team will review your application, and we will contact you if you are shortlisted.
+Our team will review your application, and if your qualifications meet our needs, we will be in touch with you regarding the next steps.
 
-Stay tuned for further updates!
+Thank you again for your application. We wish you the best of luck!
 
-Best Regards,
-HR Team`,
+Regards,
+Baishakhi Tripathy
+Executive Assistant
+Office of DEAN - IIE & HRD
+CUTM, BBSR
+M - 8144634614`,
       };
 
     case "shortlisted":
