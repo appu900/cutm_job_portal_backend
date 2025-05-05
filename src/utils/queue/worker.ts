@@ -7,8 +7,8 @@ async function sendEmail(to: string, subject: string, body: string) {
   const transpoter = nodemailer.createTransport({
     service: "gmail",
     auth: {
-      user: "awardingbody@cutm.ac.in",
-      pass: "wwut qszt cvxj njly",
+      user: "careers@cutm.ac.in",
+      pass: "wrpn ugcz hzwy ehfv",
     },
     disableFileAccess: false,
     disableUrlAccess: false,
