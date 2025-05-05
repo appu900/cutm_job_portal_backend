@@ -23,7 +23,7 @@ export async function addEmailJob(
     "Centurion University of Technology Managment"
   );
   const subject = mailData.subject;
-  const body = mailData.text;
+  const body = mailData.html;
   await jobQueue.add("send-email", { to, subject, body });
   console.log(`email add to queue: ${to}`);
 }
@@ -49,7 +49,7 @@ export async function sendFormattedMail(
     "Centurion University of Technology and Management"
   );
   const subject = mailData.subject;
-  const body = mailData.text;
+  const body = mailData.html;
   const to = user.email;
   await jobQueue.add("send-email", { to, subject, body });
   console.log(`email add to queue: ${to}`);
